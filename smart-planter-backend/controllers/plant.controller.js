@@ -41,7 +41,19 @@ exports.create = (req, res) => {
 
 // Retrieve all Plants from the database.
 exports.findAll = (req, res) => {
-  
+  const name = req.query.name;
+  var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+
+  Plant.findAll({ where: condition })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving plants."
+      });
+    });
 };
 
 // Update a Plant by the id in the request
@@ -51,5 +63,25 @@ exports.update = (req, res) => {
 
 // Delete a Plant with the specified id in the request
 exports.delete = (req, res) => {
-  
+  const id = req.params.id;
+
+  Plant.destroy({
+    where: { name: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Plant was deleted successfully!"
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Plant with id=${id}. Maybe Plant was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Plant with id=" + id
+      });
+    });
 };
