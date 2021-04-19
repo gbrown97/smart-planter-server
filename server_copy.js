@@ -13,8 +13,6 @@ app.use(cors(corsOptions));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-app.use(bodyParser.text());
-
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -26,8 +24,14 @@ const pythonProcess = spawn("python",["./Everything.py"]);
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Starting smart-planter" });
-
+  // res.json({ message: "Starting smart-planter" });
+  // const spawn = require("child_process").spawn;
+  // const pythonProcess = spawn('python',["./Everything.py"]);
+  pythonProcess.stdout.on('data', (data) => {
+    // Do something with the data returned from python script
+    res.write(data);
+   //  res.end('end');
+  });
 });
 
 

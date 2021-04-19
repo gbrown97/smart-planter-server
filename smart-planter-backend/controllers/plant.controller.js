@@ -66,8 +66,8 @@ exports.refresh = (req, res) => {
   const pythonProcess = spawn("python",["./Everything.py"]);
   pythonProcess.stdout.on('data', (data) => {
     // Do something with the data returned from python script
-    res.write(data);
-    res.end('end');
+    // res.write(data);
+    console.log("Send");
     res.send(data);
   });
 };

@@ -16,7 +16,7 @@ if  __name__ == '__main__':
     ser.flush()
     flag = True
 
-while flag:
+while True:
     output_string = ""
     if ser.in_waiting > 0:
         for i in range(4):
