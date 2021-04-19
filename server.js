@@ -21,8 +21,16 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Starting smart-planter" });
+  // res.json({ message: "Starting smart-planter" });
+  const spawn = require("child_process").spawn;
+  const pythonProcess = spawn('python',["./script.py"]);
+  pythonProcess.stdout.on('data', (data) => {
+    // Do something with the data returned from python script
+    res.write(data);
+    res.end('end');
+  });
 });
+
 
 require("./smart-planter-backend/routes/plant.routes")(app);
 
