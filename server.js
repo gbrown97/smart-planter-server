@@ -24,14 +24,8 @@ const pythonProcess = spawn("python",["./Everything.py"]);
 
 // simple route
 app.get("/", (req, res) => {
-  // res.json({ message: "Starting smart-planter" });
-  // const spawn = require("child_process").spawn;
-  // const pythonProcess = spawn('python',["./Everything.py"]);
-  pythonProcess.stdout.on('data', (data) => {
-    // Do something with the data returned from python script
-    res.write(data);
-    res.end('end');
-  });
+  res.json({ message: "Starting smart-planter" });
+
 });
 
 

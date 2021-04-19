@@ -56,9 +56,34 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Retrieve all Plants from the database.
+exports.refresh = (req, res) => {
+  console.log("refresh");
+  const name = req.query.name;
+  var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+
+  const spawn = require("child_process").spawn;
+  const pythonProcess = spawn("python",["./Everything.py"]);
+  pythonProcess.stdout.on('data', (data) => {
+    // Do something with the data returned from python script
+    res.write(data);
+    res.end('end');
+    res.send(data);
+  });
+};
+
 // Update a Plant by the id in the request
 exports.update = (req, res) => {
-  
+  Plant.update({})
+    .then(mes => {
+      res.send("Update plant data");
+    })
+    .catch( err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving plants."
+      });
+    })
 };
 
 // Delete a Plant with the specified id in the request
