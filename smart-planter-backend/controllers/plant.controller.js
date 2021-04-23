@@ -58,16 +58,16 @@ exports.findAll = (req, res) => {
 
 // Retrieve all Plants from the database.
 exports.refresh = (req, res) => {
-  console.log("refresh");
   const name = req.query.name;
   var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
   const spawn = require("child_process").spawn;
+  //const pythonProcess = spawn("python",["./Everything.py"]);
   const pythonProcess = spawn("python",["./Everything.py"]);
   pythonProcess.stdout.on('data', (data) => {
     // Do something with the data returned from python script
     // res.write(data);
-    console.log("Send");
+    console.log(data);
     res.send(data);
   });
 };
